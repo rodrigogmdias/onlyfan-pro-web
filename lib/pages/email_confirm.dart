@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 class EmailConfirmScreen extends StatelessWidget {
   const EmailConfirmScreen({super.key});
 
+  static const routeName = '/email-confirm';
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final args = ModalRoute.of(context)?.settings.arguments as Map;
+    final token = args['token'];
+
+    return Scaffold(
       body: Center(
-        child: Text(
-          'Email Confirm',
-          style: TextStyle(
+        child: SelectableText(
+          'Email Confirm: $token',
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 16,
             fontWeight: FontWeight.w500,

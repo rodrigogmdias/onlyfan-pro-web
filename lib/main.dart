@@ -11,10 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'OnlyFan.Pro',
+    return MaterialApp.router(
+      title: "OnlyFan.Pro",
       theme: ThemeApp.light(),
-      routes: routes,
+      routerConfig: router,
     );
   }
 }
