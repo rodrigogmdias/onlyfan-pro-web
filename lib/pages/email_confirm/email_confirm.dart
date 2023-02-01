@@ -17,6 +17,8 @@ class EmailConfirmScreen extends StatefulWidget {
 class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
   var result = "";
   var success = false;
+  Mutation$VerifyEmail$userConfirmRegistrationWithToken$credentials?
+      credentials;
 
   @override
   void initState() {
@@ -35,6 +37,8 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
         if (result.exception == null) {
           this.result = "E-mail confirmado com sucesso!";
           success = true;
+          credentials =
+              result.parsedData?.userConfirmRegistrationWithToken?.credentials;
         } else {
           this.result = result.exception!.graphqlErrors.first.message;
           success = false;
@@ -68,15 +72,26 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
                   height: 16,
                 ),
               if (result.isNotEmpty) Text(result),
-              if (success)
+              if (credentials != null)
                 const SizedBox(
                   height: 16,
                 ),
-              if (success)
+              if (credentials != null)
                 Button(
                   text: "Continuar no App",
                   onPressed: () async {
-                    final url = Uri.parse("onlyfan.pro://email-confirmed");
+                    final queryParams = {
+                      "accessToken": credentials!.client,
+                      "refreshToken": credentials!.client,
+                      "uid": credentials!.uid,
+                      "expiry": credentials!.expiry,
+                    };
+
+                    final url = Uri(
+                      host: "onlyfan.pro",
+                      path: "login",
+                      queryParameters: queryParams,
+                    );
 
                     if (!await launchUrl(url)) {
                       print("Failed to launch $url");
