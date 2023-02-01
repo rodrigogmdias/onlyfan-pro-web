@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:web/components/button.dart';
 import 'package:web/network/client.dart';
 import 'package:web/pages/email_confirm/email_confirm.graphql.dart';
 
@@ -38,7 +39,9 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
 
     final url = Uri.parse("onlyfan.pro://email-confirmed");
 
-    if (!await launchUrl(url)) {
+    try {
+      await launchUrl(url);
+    } catch (e) {
       print("Failed to launch $url");
     }
   }
@@ -62,6 +65,16 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
                 ),
               ),
               Text(result),
+              Button(
+                text: "Continuar no App",
+                onPressed: () async {
+                  final url = Uri.parse("onlyfan.pro://email-confirmed");
+
+                  if (!await launchUrl(url)) {
+                    print("Failed to launch $url");
+                  }
+                },
+              )
             ],
           ),
         ),
