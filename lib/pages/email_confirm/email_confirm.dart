@@ -72,7 +72,7 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
                   height: 16,
                 ),
               if (result.isNotEmpty) Text(result),
-              if (credentials != null)
+              if (success)
                 const SizedBox(
                   height: 16,
                 ),
@@ -80,18 +80,8 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
                 Button(
                   text: "Continuar no App",
                   onPressed: () async {
-                    final queryParams = {
-                      "accessToken": credentials!.accessToken,
-                      "client": credentials!.client,
-                      "uid": credentials!.uid,
-                      "expiry": credentials!.expiry,
-                    };
-
-                    final url = Uri(
-                      scheme: "onlyfan.pro",
-                      host: "login",
-                      queryParameters: queryParams,
-                    );
+                    final url = Uri.parse(
+                        "onlyfan.pro://login?accessToken=${credentials!.accessToken}&client=${credentials!.client}&uid=${credentials!.uid}&expiry=${credentials!.expiry}");
 
                     if (!await launchUrl(url)) {
                       print("Failed to launch $url");
