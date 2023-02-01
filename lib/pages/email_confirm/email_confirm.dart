@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:web/network/client.dart';
 import 'package:web/pages/email_confirm/email_confirm.graphql.dart';
 
@@ -31,6 +32,12 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
       this.result = result.parsedData?.toString() ??
           result.exception!.graphqlErrors.first.message;
     });
+
+    final url = Uri.parse("onlyfan.pro://email-confirmed");
+
+    if (!await launchUrl(url)) {
+      print("Failed to launch $url");
+    }
   }
 
   @override
