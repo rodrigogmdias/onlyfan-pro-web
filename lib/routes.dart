@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:web/pages/email_confirm.dart';
-import 'package:web/pages/home_screen.dart';
+import 'package:web/pages/email_confirm/email_confirm.dart';
+import 'package:web/pages/home/home_screen.dart';
 
 final router = GoRouter(
   routes: [
@@ -10,7 +10,9 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/email-confirm/:token',
-      builder: (context, state) => const EmailConfirmScreen(),
+      builder: (context, state) => EmailConfirmScreen(
+        token: state.params['token']!,
+      ),
     ),
   ],
 );

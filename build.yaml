@@ -1,0 +1,24 @@
+targets:
+  $default:
+    builders:
+      graphql_codegen:
+        options:
+          addTypename: false
+          clients:
+            - graphql
+            - graphql_flutter
+          scalars:
+            ExpectedError:
+              type: Map<String, dynamic>
+            DateTime:
+              type: DateTime
+              fromJsonFunctionName: dateTimeFromJson
+              toJsonFunctionName: dateTimeToJson
+              import: package:web/resources/scalars.dart
+            JSON:
+              type: Map<String, dynamic>
+            Upload:
+              type: MultipartFile
+              fromJsonFunctionName: fileFromJson
+              toJsonFunctionName: fileToJson
+              import: package:web/resources/scalars.dart
