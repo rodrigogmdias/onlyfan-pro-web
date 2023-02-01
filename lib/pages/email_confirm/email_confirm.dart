@@ -29,8 +29,11 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
       ),
     );
     setState(() {
-      this.result = result.parsedData?.toString() ??
-          result.exception!.graphqlErrors.first.message;
+      if (result.exception == null) {
+        this.result = "E-mail confirmado com sucesso!";
+      } else {
+        this.result = result.exception!.graphqlErrors.first.message;
+      }
     });
 
     final url = Uri.parse("onlyfan.pro://email-confirmed");
