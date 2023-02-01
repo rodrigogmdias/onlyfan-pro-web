@@ -88,8 +88,8 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
                     };
 
                     final url = Uri(
-                      host: "onlyfan.pro",
-                      path: "login",
+                      scheme: "onlyfan.pro",
+                      host: "login",
                       queryParameters: queryParams,
                     );
 
