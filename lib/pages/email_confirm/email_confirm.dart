@@ -81,8 +81,8 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
                   text: "Continuar no App",
                   onPressed: () async {
                     final queryParams = {
-                      "accessToken": credentials!.client,
-                      "refreshToken": credentials!.client,
+                      "accessToken": credentials!.accessToken,
+                      "client": credentials!.client,
                       "uid": credentials!.uid,
                       "expiry": credentials!.expiry,
                     };
