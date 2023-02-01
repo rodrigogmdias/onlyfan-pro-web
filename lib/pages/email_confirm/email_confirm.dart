@@ -16,6 +16,7 @@ class EmailConfirmScreen extends StatefulWidget {
 
 class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
   var result = "";
+  var success = false;
 
   @override
   void initState() {
@@ -24,25 +25,23 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
   }
 
   void verifyEmail() async {
-    final result = await client.value.mutate$VerifyEmail(
-      Options$Mutation$VerifyEmail(
-        variables: Variables$Mutation$VerifyEmail(token: widget.token),
-      ),
-    );
-    setState(() {
-      if (result.exception == null) {
-        this.result = "E-mail confirmado com sucesso!";
-      } else {
-        this.result = result.exception!.graphqlErrors.first.message;
-      }
-    });
-
-    final url = Uri.parse("onlyfan.pro://email-confirmed");
-
     try {
-      await launchUrl(url);
+      final result = await client.value.mutate$VerifyEmail(
+        Options$Mutation$VerifyEmail(
+          variables: Variables$Mutation$VerifyEmail(token: widget.token),
+        ),
+      );
+      setState(() {
+        if (result.exception == null) {
+          this.result = "E-mail confirmado com sucesso!";
+          success = true;
+        } else {
+          this.result = result.exception!.graphqlErrors.first.message;
+          success = false;
+        }
+      });
     } catch (e) {
-      print("Failed to launch $url");
+      print(e);
     }
   }
 
@@ -64,17 +63,26 @@ class _EmailConfirmScreenState extends State<EmailConfirmScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Text(result),
-              Button(
-                text: "Continuar no App",
-                onPressed: () async {
-                  final url = Uri.parse("onlyfan.pro://email-confirmed");
+              if (result.isNotEmpty)
+                const SizedBox(
+                  height: 16,
+                ),
+              if (result.isNotEmpty) Text(result),
+              if (success)
+                const SizedBox(
+                  height: 16,
+                ),
+              if (success)
+                Button(
+                  text: "Continuar no App",
+                  onPressed: () async {
+                    final url = Uri.parse("onlyfan.pro://email-confirmed");
 
-                  if (!await launchUrl(url)) {
-                    print("Failed to launch $url");
-                  }
-                },
-              )
+                    if (!await launchUrl(url)) {
+                      print("Failed to launch $url");
+                    }
+                  },
+                )
             ],
           ),
         ),
